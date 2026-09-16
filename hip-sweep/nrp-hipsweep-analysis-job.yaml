@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: charlesd-hipsweep-analysis
+  namespace: hengenlab
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: analysis
+          image: seacore219/sorn-hipsweep-py2:cdad55d
+          imagePullPolicy: Always
+          command: ["sh", "-c", "cd /opt/sorn/delpapa/avalanches && HIP_BATCH=h_ip_0.02 python -u fig2_abc_n200-hipsweep.py"]
+          resources:
+            requests:
+              cpu: "1"
+              memory: "2Gi"
+              ephemeral-storage: "2Gi"
+            limits:
+              cpu: "1"
+              memory: "2Gi"
+              ephemeral-storage: "2Gi"
+          volumeMounts:
+            - name: storage
+              mountPath: /opt/sorn/backup
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: charlesd-hipsweep-storage

@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: charlesd-criticality-analysis
+  namespace: hengenlab
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: analysis
+          image: seacore219/criticality-analysis:latest
+          imagePullPolicy: Always
+          env:
+            - name: SWEEP_ROOT
+              value: /data
+            - name: BATCH_GLOB
+              value: "*/h_ip_*"
+          resources:
+            requests:
+              cpu: "1"
+              memory: "4Gi"
+              ephemeral-storage: "4Gi"
+            limits:
+              cpu: "1"
+              memory: "4Gi"
+              ephemeral-storage: "4Gi"
+          volumeMounts:
+            - name: storage
+              mountPath: /data
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: charlesd-hipsweep-storage
