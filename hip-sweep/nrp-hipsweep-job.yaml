@@ -1,11 +1,11 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ava-scalingline-hipsweep-indexed
+  name: sorn-hipsweep-sweep
   namespace: hengenlab
 spec:
   completionMode: Indexed
-  completions: 250       # 5 h_ip values x 50 runs
+  completions: 250       # set to (number of h_ip values) x (runs per h_ip)
   parallelism: 50
   backoffLimitPerIndex: 2
   maxFailedIndexes: 20
@@ -34,4 +34,4 @@ spec:
             - {name: storage, mountPath: /opt/sorn/backup}
       volumes:
         - name: storage
-          persistentVolumeClaim: {claimName: aw222-sorn-replication-storage}
+          persistentVolumeClaim: {claimName: sorn-hipsweep-storage}

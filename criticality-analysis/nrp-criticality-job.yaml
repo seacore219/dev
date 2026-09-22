@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: charlesd-criticality-analysis-fig2-try3
+  name: sorn-hipsweep-analysis
   namespace: hengenlab
 spec:
   backoffLimit: 0
@@ -16,28 +16,20 @@ spec:
             - name: SWEEP_ROOT
               value: /data
             - name: CONFIG_NAME
-              value: ""
+              value: "2026-09-22_hip0.01,0.03,0.04,0.06,0.07"
             - name: BATCH_GLOB
-              value: "."
+              value: "h_ip_*"
             - name: RUN_GLOB
-              value: "n200-run-*"
+              value: "run-*"
             - name: ANALYSIS_WINDOW_START
-              value: "2000000"
+              value: "2500000"
             - name: ANALYSIS_WINDOW_END
-              value: "5000000"
+              value: "6000000"
           resources:
-            requests:
-              cpu: "1"
-              memory: "4Gi"
-              ephemeral-storage: "4Gi"
-            limits:
-              cpu: "1"
-              memory: "4Gi"
-              ephemeral-storage: "4Gi"
+            requests: {cpu: "1", memory: "4Gi", ephemeral-storage: "4Gi"}
+            limits: {cpu: "1", memory: "4Gi", ephemeral-storage: "4Gi"}
           volumeMounts:
-            - name: storage
-              mountPath: /data
+            - {name: storage, mountPath: /data}
       volumes:
         - name: storage
-          persistentVolumeClaim:
-            claimName: charlesd-sorn-fig2-py2-storage
+          persistentVolumeClaim: {claimName: sorn-hipsweep-storage}

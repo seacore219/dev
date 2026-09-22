@@ -28,8 +28,6 @@ RUN conda install --yes \
         powerlaw==1.4.6 \
     && conda clean --all --yes
 
-# Fetch a fresh archive of the author's repository at the exact commit --
-# no local checkout, no local edits copied in, nothing but this download.
 RUN mkdir -p /opt/sorn \
     && wget --quiet --output-document=/tmp/sorn.tar.gz \
        "https://github.com/delpapa/SORN/archive/${SORN_COMMIT}.tar.gz" \
@@ -37,12 +35,6 @@ RUN mkdir -p /opt/sorn \
        --directory=/opt/sorn --strip-components=1 \
     && rm /tmp/sorn.tar.gz
 
-# Three cluster-safety patches only, same philosophy as the Fig.2 image:
-# 1. SORN_SEED prevents simultaneous jobs receiving the same wall-clock seed.
-# 2. SORN_RUN_ID gives every job a separate directory on the shared volume.
-# 3. SORN_H_IP makes h_ip settable per-job without editing the param file
-#    for each sweep value -- everything else in param_Zheng2013.py
-#    (step counts aside, all other parameters) stays exactly as published.
 RUN sed -i \
       "s/start_seed = current_time_int\*(rank + 1)/start_seed = int(os.environ.get('SORN_SEED', current_time_int*(rank + 1)))/" \
       /opt/sorn/utils/backup.py \
@@ -62,7 +54,6 @@ RUN sed -i \
     && grep -Fq 'c.steps_plastic = 6000000' /opt/sorn/delpapa/param_Zheng2013.py
 
 COPY entrypoint.sh /usr/local/bin/sorn-hipsweep
-COPY fig2_abc_n200-hipsweep.py /opt/sorn/delpapa/avalanches/fig2_abc_n200-hipsweep.py
 RUN chmod 0755 /usr/local/bin/sorn-hipsweep \
     && python -c "import numpy, scipy, tables, matplotlib, powerlaw; print('Python 2 scientific stack validated')"
 
