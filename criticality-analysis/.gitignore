@@ -1,3 +1,5 @@
 criticality_tumbleweed/
+av_plots/
+CSVs/
 *.csv
 *.pdf

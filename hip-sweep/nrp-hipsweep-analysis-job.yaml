@@ -1,31 +1,37 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: charlesd-hipsweep-analysis
+  name: ava-scalingline-hipsweep-indexed
   namespace: hengenlab
 spec:
-  backoffLimit: 0
+  completionMode: Indexed
+  completions: 250       # 5 h_ip values x 50 runs
+  parallelism: 50
+  backoffLimitPerIndex: 2
+  maxFailedIndexes: 20
   template:
     spec:
       restartPolicy: Never
       containers:
-        - name: analysis
+        - name: sorn
           image: seacore219/sorn-hipsweep-py2:cdad55d
           imagePullPolicy: Always
-          command: ["sh", "-c", "cd /opt/sorn/delpapa/avalanches && HIP_BATCH=h_ip_0.02 python -u fig2_abc_n200-hipsweep.py"]
+          env:
+            - name: JOB_COMPLETION_INDEX
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.annotations['batch.kubernetes.io/job-completion-index']
+            - name: RUNS_PER_HIP
+              value: "50"
+            - name: HIP_VALUES
+              value: "0.01,0.03,0.04,0.06,0.07"
+            - name: SWEEP_LABEL
+              value: "2026-09-22_hip0.01-0.07_step0.02"
           resources:
-            requests:
-              cpu: "1"
-              memory: "2Gi"
-              ephemeral-storage: "2Gi"
-            limits:
-              cpu: "1"
-              memory: "2Gi"
-              ephemeral-storage: "2Gi"
+            requests: {cpu: "1", memory: "1Gi", ephemeral-storage: "4Gi"}
+            limits: {cpu: "1", memory: "1Gi", ephemeral-storage: "4Gi"}
           volumeMounts:
-            - name: storage
-              mountPath: /opt/sorn/backup
+            - {name: storage, mountPath: /opt/sorn/backup}
       volumes:
         - name: storage
-          persistentVolumeClaim:
-            claimName: charlesd-hipsweep-storage
+          persistentVolumeClaim: {claimName: aw222-sorn-replication-storage}

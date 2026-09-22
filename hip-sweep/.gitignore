@@ -1,4 +1,5 @@
 nrp_jobs/
 av_plots/
+CSVs/
 *.csv
 *.pdf

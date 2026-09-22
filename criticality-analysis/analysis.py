@@ -27,11 +27,10 @@ import criticality_tumbleweed as crt
 # CONFIG
 # ---------------------------------------------------------------------------
 
-SWEEP_ROOT = "nrp-sweep-data"
-CONFIG_NAME = "batch_0.01_0.01_0.3"    # the current parameter-combo folder under SWEEP_ROOT --
-                              # change this each time you start a new combination
-BATCH_GLOB = "*_h_ip_*"       # e.g. "07_29_26_h_ip_0.01"
-RUN_GLOB = "h_ip_*_run*"      # e.g. "h_ip_0.01_run1", nested inside a batch
+SWEEP_ROOT = os.environ.get('SWEEP_ROOT', 'nrp-sweep-data')
+CONFIG_NAME = os.environ.get('CONFIG_NAME', 'batch_0.01_0.01_0.3')
+BATCH_GLOB = os.environ.get('BATCH_GLOB', '*_h_ip_*')
+RUN_GLOB = os.environ.get('RUN_GLOB', 'h_ip_*_run*')
 TIMESTAMP_FMT = "%Y-%m-%d %H-%M-%S"   # matches "2026-07-28 16-47-45"
 
 USE_SPIKES_RASTER = False
@@ -68,8 +67,8 @@ BATCH_CSV = os.path.join(OUTPUT_DIR, "criticality_summary_pooled_by_batch.csv")
 
 SAVE_AV_PLOTS = True   # set False to skip avalanche distribution plots
 
-ANALYSIS_WINDOW_START = 2500000
-ANALYSIS_WINDOW_END = 6000000
+ANALYSIS_WINDOW_START = int(os.environ.get('ANALYSIS_WINDOW_START', 2500000))
+ANALYSIS_WINDOW_END = int(os.environ.get('ANALYSIS_WINDOW_END', 6000000))
 
 # ---------------------------------------------------------------------------
 

@@ -1,9 +1,27 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-: "${SORN_RUN_ID:?Set SORN_RUN_ID}"
-: "${SORN_SEED:?Set SORN_SEED}"
-: "${SORN_H_IP:?Set SORN_H_IP}"
+: "${JOB_COMPLETION_INDEX:?This image requires an Indexed Job (completionMode: Indexed), which sets JOB_COMPLETION_INDEX}"
+case "$JOB_COMPLETION_INDEX" in
+  ''|*[!0-9]*)
+    echo "JOB_COMPLETION_INDEX must be a non-negative integer" >&2
+    exit 64
+    ;;
+esac
+
+: "${RUNS_PER_HIP:?Set RUNS_PER_HIP}"
+: "${HIP_VALUES:?Set HIP_VALUES as a comma-separated list}"
+: "${SWEEP_LABEL:?Set SWEEP_LABEL}"
+
+IFS=',' read -ra HIP_ARRAY <<< "$HIP_VALUES"
+
+hip_index=$((JOB_COMPLETION_INDEX / RUNS_PER_HIP))
+run_number=$((JOB_COMPLETION_INDEX % RUNS_PER_HIP + 1))
+
+SORN_H_IP="${HIP_ARRAY[$hip_index]}"
+SORN_RUN_ID=$(printf '%s/h_ip_%s/run-%03d' "$SWEEP_LABEL" "$SORN_H_IP" "$run_number")
+# must match whatever generated the sweep's YAML -- currently 400000 + hip_index*1000 + run_number
+SORN_SEED=$((400000 + hip_index * 1000 + run_number))
 
 case "$SORN_RUN_ID" in
   *[!A-Za-z0-9._/-]*)
