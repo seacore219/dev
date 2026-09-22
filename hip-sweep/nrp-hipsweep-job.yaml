@@ -5,7 +5,7 @@ metadata:
   namespace: hengenlab
 spec:
   completionMode: Indexed
-  completions: 250       # set to (number of h_ip values) x (runs per h_ip)
+  completions: 350       # set to (number of h_ip values) x (runs per h_ip)
   parallelism: 50
   backoffLimitPerIndex: 2
   maxFailedIndexes: 20
