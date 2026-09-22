@@ -24,9 +24,9 @@ spec:
             - name: RUNS_PER_HIP
               value: "50"
             - name: HIP_VALUES
-              value: "0.01,0.03,0.04,0.06,0.07"
+              value: "0.005,0.01,0.02,0.03,0.04,0.06,0.07"
             - name: SWEEP_LABEL
-              value: "2026-09-22_hip0.01-0.07_step0.02"
+              value: "2026-09-22_hip0.005-0.07"
           resources:
             requests: {cpu: "1", memory: "1Gi", ephemeral-storage: "4Gi"}
             limits: {cpu: "1", memory: "1Gi", ephemeral-storage: "4Gi"}
@@ -34,4 +34,4 @@ spec:
             - {name: storage, mountPath: /opt/sorn/backup}
       volumes:
         - name: storage
-          persistentVolumeClaim: {claimName: sorn-hipsweep-storage}
+          persistentVolumeClaim: {claimName: aw222-sorn-replication-storage}

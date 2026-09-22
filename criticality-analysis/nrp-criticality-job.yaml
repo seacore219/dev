@@ -16,9 +16,9 @@ spec:
             - name: SWEEP_ROOT
               value: /data
             - name: CONFIG_NAME
-              value: "2026-09-22_hip0.01,0.03,0.04,0.06,0.07"
+              value: "2026-09-17_hip0.08-0.20_step0.02"
             - name: BATCH_GLOB
-              value: "h_ip_*"
+              value: "h_ip_0.10"
             - name: RUN_GLOB
               value: "run-*"
             - name: ANALYSIS_WINDOW_START
@@ -32,4 +32,4 @@ spec:
             - {name: storage, mountPath: /data}
       volumes:
         - name: storage
-          persistentVolumeClaim: {claimName: sorn-hipsweep-storage}
+          persistentVolumeClaim: {claimName: aw222-sorn-replication-storage}
