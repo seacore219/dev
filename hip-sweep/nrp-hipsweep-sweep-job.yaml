@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sorn-hipsweep-sweep
+  namespace: hengenlab
+spec:
+  completionMode: Indexed
+  completions: 250       # <-- set to (number of h_ip values) x (runs per h_ip)
+  parallelism: 50
+  backoffLimitPerIndex: 2
+  maxFailedIndexes: 20
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: sorn
+          image: seacore219/sorn-hipsweep-py2:cdad55d
+          imagePullPolicy: Always
+          env:
+            - nam           LET            - nam           LET            - nam           LET                      - nam           LET            - .kubernetes.io/job-completion-            - nam   - name: RUNS_PER_HIP
+                                      - name: HIP_VALUES
+              value: "0.01,0.03,0.04,0.06,0.07"
+            - name            - name              - name       2_hip0.        step0                          - name      re            - name            - name emeral-storage: "4Gi"}
+                                                    ral-storage: "4Gi"}
+          volumeMounts:
+          volumeMounts:
+ age, mountPath: /opt/sorn/backup}
+      volumes:
+        - name: storage
+          persistentVolumeClaim: {claimName: sorn-hipsweep-storage}

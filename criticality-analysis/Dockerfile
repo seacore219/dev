@@ -10,12 +10,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends git \
 COPY criticality_tumbleweed/ ./criticality_tumbleweed/
 
 RUN pip install --no-cache-dir -r criticality_tumbleweed/requirements.txt \
-    && pip install --no-cache-dir ./criticality_tumbleweed
+    && pip install --no-cache-dir ./criticality_tumbleweed \
+    && pip install --no-cache-dir h5py
 
 COPY analysis.py .
 
 CMD ["python", "-u", "analysis.py"]
-
-RUN pip install --no-cache-dir -r criticality_tumbleweed/requirements.txt \
-    && pip install --no-cache-dir ./criticality_tumbleweed \
-    && pip install --no-cache-dir h5py
