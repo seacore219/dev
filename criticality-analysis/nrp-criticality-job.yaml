@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: charlesd-criticality-analysis
+  name: charlesd-criticality-analysis-fig2-try3
   namespace: hengenlab
 spec:
   backoffLimit: 0
@@ -16,7 +16,13 @@ spec:
             - name: SWEEP_ROOT
               value: /data
             - name: BATCH_GLOB
-              value: "*/h_ip_*"
+              value: "."
+            - name: RUN_GLOB
+              value: "n200-run-*"
+            - name: ANALYSIS_WINDOW_START
+              value: "2000000"
+            - name: ANALYSIS_WINDOW_END
+              value: "5000000"
           resources:
             requests:
               cpu: "1"
@@ -32,4 +38,4 @@ spec:
       volumes:
         - name: storage
           persistentVolumeClaim:
-            claimName: charlesd-hipsweep-storage
+            claimName: charlesd-sorn-fig2-py2-storage

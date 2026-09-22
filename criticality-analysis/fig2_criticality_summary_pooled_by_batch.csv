@@ -1,0 +1,2 @@
+batch,h_ip,n_runs_pooled,n_avalanches_pooled,alpha_size_exponent,beta_duration_exponent,dcc,xmin_burst,xmax_burst,xmin_dur,xmax_dur,excluded_burst_fit,excluded_dur_fit
+data/.,0.1,50,18066154,1.5350887298584,2.399013519287113,1.518876495774323,9,704.0,9,275,False,False

@@ -21,12 +21,12 @@ import time
 
 NAMESPACE = 'hengenlab'
 IMAGE = 'seacore219/sorn-hipsweep-py2:cdad55d'
-PVC_NAME = 'charlesd-hipsweep-storage'
+PVC_NAME = 'aw222-sorn-replication-storage'
 MOUNT_PATH = '/opt/sorn/backup'
-JOB_PREFIX = 'charlesd-hipsweep-'
+JOB_PREFIX = 'charlesd-scalingline-hipsweep-'
 
 # H_IP_VALUES = [round(0.02 + 0.02 * i, 2) for i in range(10)]  # 0.02 ... 0.20
-H_IP_VALUES = [0.02, 0.05, 0.08] # bigger test
+H_IP_VALUES = [0.01, 0.03, 0.04, 0.06, 0.07] # bigger test
 # H_IP_VALUES = [0.02] # test
 N_RUNS_PER_HIP = 50
 
@@ -40,7 +40,7 @@ SWEEP_LABEL = '%s_hip%.2f-%.2f_step%.2f' % (
 )
 
 CPU = "1"
-MEMORY = "3Gi"
+MEMORY = "1Gi"
 EPHEMERAL_STORAGE = "4Gi"
 
 MAX_CONCURRENT = 50
