@@ -3,3 +3,4 @@ av_plots/
 CSVs/
 *.csv
 *.pdf
+.DS_Store
