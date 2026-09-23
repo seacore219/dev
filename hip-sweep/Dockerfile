@@ -48,10 +48,12 @@ RUN sed -i \
     && sed -i \
       "s/c.steps_plastic = 5000000/c.steps_plastic = 6000000/" \
       /opt/sorn/delpapa/param_Zheng2013.py \
+    && sed -i '93,94s/^/#/' /opt/sorn/common/test_single.py \
     && grep -Fq "start_seed = int(os.environ.get('SORN_SEED'" /opt/sorn/utils/backup.py \
     && grep -Fq "c.h_ip = float(os.environ.get('SORN_H_IP'" /opt/sorn/delpapa/param_Zheng2013.py \
     && grep -Fq 'c.N_e = 200' /opt/sorn/delpapa/param_Zheng2013.py \
-    && grep -Fq 'c.steps_plastic = 6000000' /opt/sorn/delpapa/param_Zheng2013.py
+    && grep -Fq 'c.steps_plastic = 6000000' /opt/sorn/delpapa/param_Zheng2013.py \
+    && grep -Fq "#experiment.plot_single(dest_directory," /opt/sorn/common/test_single.py
 
 COPY entrypoint.sh /usr/local/bin/sorn-hipsweep
 RUN chmod 0755 /usr/local/bin/sorn-hipsweep \
