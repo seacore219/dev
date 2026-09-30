@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: sorn-hipsweep-analysis
+  name: sorn-hipsweep-analysis-0.02
   namespace: hengenlab
 spec:
   backoffLimit: 0
@@ -16,9 +16,9 @@ spec:
             - name: SWEEP_ROOT
               value: /data
             - name: CONFIG_NAME
-              value: "2026-09-17_hip0.08-0.20_step0.02"
+              value: "2026-09-15_hip0.02-0.08_step0.03"
             - name: BATCH_GLOB
-              value: "h_ip_0.10"
+              value: "h_ip_0.02"
             - name: RUN_GLOB
               value: "run-*"
             - name: ANALYSIS_WINDOW_START
@@ -32,4 +32,4 @@ spec:
             - {name: storage, mountPath: /data}
       volumes:
         - name: storage
-          persistentVolumeClaim: {claimName: aw222-sorn-replication-storage}
+          persistentVolumeClaim: {claimName: charlesd-hipsweep-storage}
